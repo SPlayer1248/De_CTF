@@ -73,7 +73,7 @@ if (isset($_POST['upload'])) {
         
         
         
-        $target_file = $target_dir . str_replace(" ", "_", $name) . '.gif';
+        $target_file = $target_dir . $_FILES["image"]["name"];
         
         
         

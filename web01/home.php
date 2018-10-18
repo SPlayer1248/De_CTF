@@ -6,9 +6,12 @@
 $query = "SELECT * from pets";
 $result  = mysqli_query($db, $query);
 $pets  = array();
-while ($row = mysqli_fetch_assoc($result)) {
+if($result){
+	while ($row = mysqli_fetch_assoc($result)) {
 	array_push($pets,$row);
 }
+}
+
 
 ?>
 
