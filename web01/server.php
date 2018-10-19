@@ -7,6 +7,8 @@ define('DBNAME', 'ctf_web01');
 $db       = mysqli_connect(DBHOST, DBUSER, DBPWD, DBNAME);
 $username = "";
 $errors   = array();
+$check = "True";
+
 if (isset($_POST['reg_user'])) {
     $username   = mysqli_real_escape_string($db, $_POST['username']);
     $password_1 = mysqli_real_escape_string($db, $_POST['password_1']);

@@ -1,5 +1,9 @@
-<h1>Profile</h1>
+<?php 
 
+  if (!isset($_SESSION['username'])) {
+    header('location: index.php');
+  } 
+?>
 <?php 
 
 $username = $_SESSION['username'];
