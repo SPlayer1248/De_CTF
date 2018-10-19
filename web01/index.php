@@ -25,9 +25,9 @@
 <!-- <div> -->
   <nav class="navbar navbar-dark bg-dark">
   <a class="navbar-brand" style="color: white;padding-left: 40px" href="#">Pet world</a>
-  <a class="navbar-link"  href="?page=home">Home</a>
-    <a class="navbar-link" href="?page=upload">Upload</a>
-    <a class="navbar-link" href="?page=profile">Profile</a>
+  <a class="navbar-link"  href="?page=home.php">Home</a>
+    <a class="navbar-link" href="?page=upload.php">Upload</a>
+    <a class="navbar-link" href="?page=profile.php">Profile</a>
     <?php  if (isset($_SESSION['username'])) : ?>
       <strong><?php echo $_SESSION['username']; ?></strong>
       <a class="navbar-brand" style="color: white;padding-right: 50px" href="index.php?logout='1'" style="color: red;">Logout</a>
@@ -39,9 +39,9 @@
 
 <div>
     <?php if (isset($_GET['page']) && !empty($_GET['page'])) {
-              include($_GET['page'].'.php');
+              include($_GET['page']);
     } else {
-        header('location: ?page=home');
+        header('location: ?page=home.php');
       }
      ?>
     

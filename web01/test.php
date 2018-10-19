@@ -1,1 +1,4 @@
-<?php phpinfo();?>
+
+<?php
+include('test.txt');
+?>
