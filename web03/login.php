@@ -11,7 +11,7 @@
       background-repeat: no-repeat;
       background-size: cover;
     }
-    
+    <?php print_r($_COOKIE) ?>
   </style>
 </head>
 <body>

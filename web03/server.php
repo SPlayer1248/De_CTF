@@ -1,4 +1,4 @@
-<?php
+ <?php
 session_start();
 define('DBUSER', 'root');
 define('DBPWD', '');
@@ -51,6 +51,10 @@ if (isset($_POST['login_user'])) {
         $results = mysqli_query($db, $query);
         if (mysqli_num_rows($results) == 1) {
             $_SESSION['username'] = $username;
+            $_SESSION['level']    = mysqli_fetch_assoc($results)['level'];
+            if($_SESSION['level'] == '1'){
+                setcookie('flag',"FLAG{this_is_the_flag}",0);
+            }
             header('location: index.php');
         } else {
             array_push($errors, "Wrong username/password combination");
@@ -78,26 +82,71 @@ if (isset($_GET['user']) && !empty($_GET['user'])) {
     
 }
 
-$current_user = $_SESSION['username'];
-$query = "SELECT * FROM messages WHERE sender='$current_user' OR receiver='$current_user' ORDER BY date DESC";
-
-$rs = mysqli_query($db, $query);
-
-$contacts = array();
-if ($rs) {
-    while ($line = mysqli_fetch_assoc($rs)) {
-        // array_push($contacts, $line);
-        if ($line['sender'] == $current_user) {
-            if (!in_array($line['receiver'], $contacts)) {
-        
-                array_push($contacts, $line['receiver']);
-            }
-            
-        } else {
-            if (!in_array($line['sender'], $contacts)) {
+if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
+    $current_user = $_SESSION['username'];
+    $query        = "SELECT * FROM messages WHERE sender='$current_user' OR receiver='$current_user' ORDER BY date DESC";
+    
+    $rs = mysqli_query($db, $query);
+    
+    $contacts = array();
+    if ($rs) {
+        while ($line = mysqli_fetch_assoc($rs)) {
+            // array_push($contacts, $line);
+            if ($line['sender'] == $current_user) {
+                if (!in_array($line['receiver'], $contacts)) {
+                    
+                    array_push($contacts, $line['receiver']);
+                }
                 
-                array_push($contacts, $line['sender']);
+            } else {
+                if (!in_array($line['sender'], $contacts)) {
+                    
+                    array_push($contacts, $line['sender']);
+                }
             }
         }
+    }
+}
+
+if (isset($_POST['send_message'])) {
+    if (isset($_POST['receiver']) && !empty($_POST['receiver']) && isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['content']) && !empty($_POST['content'])) {
+        $receiver = $_POST['receiver'];
+        $title    = $_POST['title'];
+        $content  = $_POST['content'];
+        $sender   = $_SESSION['username'];
+        
+        $query  = "INSERT INTO messages (title, content, receiver, sender) VALUES ('$title','$content','$receiver','$sender')";
+        var_dump($query);
+        $result = mysqli_query($db, $query);
+        if ($result) {
+            header('location: index.php?user=' . $receiver);
+        } else {
+            array_push($errors, "Error");
+        }
+    } else {
+        array_push($errors, "Plase fill all fields");
+    }
+}
+
+if (isset($_SESSION['level']) && $_SESSION['level'] == '1') {
+    $query    = "SELECT * FROM messages ORDER BY date DESC";
+    $rs       = mysqli_query($db, $query);
+    $all_mess = array();
+    while ($ms = mysqli_fetch_assoc($rs)) {
+        array_push($all_mess, $ms);
+    }
+    
+    
+}
+var_dump($_COOKIE);
+// die();
+if (isset($_POST['del_mess'])) {
+    $id     = $_POST['id'];
+    $query  = "DELETE FROM messages WHERE id=$id";
+    $result = mysqli_query($db, $query);
+    if ($result) {
+        header('location: admin.php');
+    } else {
+        array_push($errors, "Error while delete");
     }
 }

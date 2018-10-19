@@ -8,13 +8,19 @@
     if (isset($_GET['logout'])) {
       session_destroy();
       unset($_SESSION['username']);
+      unset($_SESSION['level']);
+
+      if(isset($_COOKIE['flag'])){
+        unset($_COOKIE['flag']);
+        setcookie('flag', null, -1, '/');
+        
+      }
       header("location: login.php");
     }
     ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Home</title>
         <title>Chitchat</title>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -23,6 +29,18 @@
     </head>
     <body>
         <div class="container">
+            <div class="row">
+                <nav class="navbar navbar-dark bg-dark">
+
+    <?php  if (isset($_SESSION['username'])) : ?>
+      <a class="navbar-brand" href="#"><strong><?php echo $_SESSION['username']; ?></strong></a>
+      <?php if(isset($_SESSION['level']) && $_SESSION['level']=='1'): ?>
+        <a class="navbar-brand" href="admin.php">Manage</a>
+      <?php endif ?>
+      <a class="navbar-brand" style="padding-right: 50px" href="index.php?logout='1'" style="color: red;">Logout</a>
+    <?php endif ?>
+  </nav>
+            </div>
             <div class="row">
                 <div class=" col-md-1">
                     <h2 class="page-header">Users</h2>
@@ -43,7 +61,11 @@
                     </section>
                 </div>
                 <div class=" col-md-11">
-                    <h2 class="page-header">Chitchat</h2>
+
+                    <h2 class="page-header">Chitchat  <?php if(isset($_GET['user']) && !empty($_GET['user'])): ?> <button class="btn btn-success" onclick="showForm2()"><i class="fas fa-plus"></i></button><?php endif ?></h2>
+                   
+                           
+                        
                     <section class="comment-list" style="margin-bottom: 20px;">
                         <?php if(isset($_GET['user']) && !empty($_GET['user'])): ?>
                         <article class="row">
@@ -63,6 +85,8 @@
                             <input type="text" class="form-control" name="title">
                             <label for="comment">Content:</label>
                             <textarea class="form-control" rows="5" name="content"></textarea>
+                            <?php include("errors.php") ?>
+                            <input class="btn btn-success" type="submit" name="send_message" value="send">
                         </form>
                     </div>
                     <div id="form2" class="comment-list" style="display: none;">
@@ -73,6 +97,8 @@
                             <input type="text" class="form-control" name="title">
                             <label for="comment">Content:</label>
                             <textarea class="form-control" rows="5" name="content"></textarea>
+                            <?php include("errors.php") ?>
+                            <input class="btn btn-success" type="submit" name="send_message" value="send">
                         </form>
                     </div>
                     <section class="comment-list">

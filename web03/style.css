@@ -146,3 +146,11 @@ form, .content {
 .comment-list .comment-post {
   margin-top: 6px;
 }
+
+.user_name{
+    font-size:14px;
+    font-weight: bold;
+}
+.comments-list .media{
+    border-bottom: 1px dotted #ccc;
+}

@@ -5,6 +5,7 @@
   <title>Pet worlds</title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+   <script src='https://www.google.com/recaptcha/api.js'></script>
   <style>
     body{
       background-image: url('http://wpnature.com/wp-content/uploads/2016/08/lakes-sunset-purple-lake-clouds-sky-autumn-desktop-1366x768.jpg');
@@ -32,6 +33,7 @@
               <label><strong>Confirm password</strong></label>
               <input type="password" name="password_2" class="form-control" placeholder="Enter Password">
             </div>
+             <div class="g-recaptcha" data-sitekey="6Leez3UUAAAAAFm-IcMA3dQBIaQMEnbdOsb9DhcA" style="padding-top: 5px"></div>
              <div style="padding-top: 20px">
                  <p> Already have account? <a href="login.php">Log in</a> </p>
               </div>
