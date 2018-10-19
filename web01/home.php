@@ -1,8 +1,8 @@
 <?php 
 
-  if (!isset($_SESSION['username'])) {
-    header('location: index.php');
-  } 
+  // if (!isset($_SESSION['username'])) {
+  //   header('location: index.php');
+  // } 
 ?>
 <h1>Home</h1>
 
