@@ -116,7 +116,7 @@ if (isset($_POST['send_message'])) {
         $sender   = $_SESSION['username'];
         
         $query  = "INSERT INTO messages (title, content, receiver, sender) VALUES ('$title','$content','$receiver','$sender')";
-        var_dump($query);
+        // var_dump($query);
         $result = mysqli_query($db, $query);
         if ($result) {
             header('location: index.php?user=' . $receiver);
@@ -129,23 +129,42 @@ if (isset($_POST['send_message'])) {
 }
 
 if (isset($_SESSION['level']) && $_SESSION['level'] == '1') {
-    $query    = "SELECT * FROM messages ORDER BY date DESC";
-    $rs       = mysqli_query($db, $query);
-    $all_mess = array();
-    while ($ms = mysqli_fetch_assoc($rs)) {
-        array_push($all_mess, $ms);
+    if(isset($_GET['mess_id'])){
+        $mess_id = $_GET['mess_id'];
+        $query = "SELECT MAX( `id` ) AS 'max_id' FROM `messages` ";
+        $rs = mysqli_query($db,$query);
+        $max_id = mysqli_fetch_assoc($rs);
+        $max_id = $max_id['max_id'];
+
+        $mess_id = intval($mess_id);
+        $max_id = intval($max_id);
+        if($mess_id <= $max_id){
+            $query    = "SELECT * FROM messages WHERE id=$mess_id ORDER BY date DESC";
+            $rs       = mysqli_query($db, $query);    
+            $mess = mysqli_fetch_assoc($rs);
+        } else {
+            array_push($errors, "404 Not Found");
+        }
+        
     }
+    
+    // $all_mess = array();
+    // while () {
+    //     array_push($all_mess, $ms);
+    // }
     
     
 }
-var_dump($_COOKIE);
+// var_dump($_COOKIE);
 // die();
 if (isset($_POST['del_mess'])) {
     $id     = $_POST['id'];
     $query  = "DELETE FROM messages WHERE id=$id";
     $result = mysqli_query($db, $query);
     if ($result) {
-        header('location: admin.php');
+        $id = $id +1;
+        $link = "location: detail.php?mess_id=$id";
+        header($link);
     } else {
         array_push($errors, "Error while delete");
     }

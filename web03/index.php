@@ -35,12 +35,13 @@
     <?php  if (isset($_SESSION['username'])) : ?>
       <a class="navbar-brand" href="#"><strong><?php echo $_SESSION['username']; ?></strong></a>
       <?php if(isset($_SESSION['level']) && $_SESSION['level']=='1'): ?>
-        <a class="navbar-brand" href="admin.php">Manage</a>
+        <a class="navbar-brand" href="detail.php">Manage</a>
       <?php endif ?>
       <a class="navbar-brand" style="padding-right: 50px" href="index.php?logout='1'" style="color: red;">Logout</a>
     <?php endif ?>
   </nav>
             </div>
+     
             <div class="row">
                 <div class=" col-md-1">
                     <h2 class="page-header">Users</h2>
